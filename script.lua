@@ -13,7 +13,6 @@ _G.ESP = true
 --funcao
 function ESP()
 while _G.ESP == true do
-    local gui = Instance.new ("SurfaceGui", parte)
     gui.Name = "ESP"
     gui.AlwaysOnTop = true
     gui.LightInfluence = 0
