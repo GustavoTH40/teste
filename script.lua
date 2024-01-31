@@ -47,7 +47,7 @@ if game.PlaceId == 15991080927 then
     })
 
     JogadorTab:AddToggle({
-        Name = "ESP",
+        Name = "ESPp",
         Default = false,
         Callback = function(Value)
             _G.ESP = Value
