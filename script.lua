@@ -22,12 +22,15 @@ if game.PlaceId == 15991080927 then
                 for _, player in pairs(players) do
                     -- Verificar se o jogador é diferente do jogador local
                     if player ~= game.Players.LocalPlayer then
-                        -- Criar uma linha ESP para o jogador
-                        local espLine = Drawing.new("Line")
-                        espLine.Visible = true
-                        espLine.From = Vector2.new(game.Players.LocalPlayer:WaitForChild("PlayerGui").ViewportFrame.WorldFrame:WaitForChild(player.Name).Position.X, game.Players.LocalPlayer:WaitForChild("PlayerGui").ViewportFrame.WorldFrame:WaitForChild(player.Name).Position.Y)
-                        espLine.To = Vector2.new(game.Players.LocalPlayer:WaitForChild("PlayerGui").ViewportFrame.WorldFrame:WaitForChild(player.Name).Position.X, game.Players.LocalPlayer:WaitForChild("PlayerGui").ViewportFrame.WorldFrame:WaitForChild(player.Name).Position.Y + player.Character:WaitForChild("Humanoid").HipHeight * 3)
-                        espLine.Color = Color3.new(1, 1, 1) -- Cor do ESP (branco)
+                        local playerPos, onScreen = game.Players.LocalPlayer:WaitForChild("PlayerGui").ViewportFrame.WorldFrame:WaitForChild(player.Name).Position, game.Players.LocalPlayer:WaitForChild("PlayerGui").ViewportFrame.WorldFrame:WaitForChild(player.Name).Position
+
+                        if onScreen then
+                            OrionLib:AddBox({
+                                Color = Color3.new(1, 1, 1), -- Cor do ESP (branco)
+                                From = Vector2.new(playerPos.X, playerPos.Y),
+                                To = Vector2.new(playerPos.X, playerPos.Y + player.Character:WaitForChild("Humanoid").HipHeight * 3)
+                            })
+                        end
                     end
                 end
             end
@@ -43,7 +46,7 @@ if game.PlaceId == 15991080927 then
 
     -- SECAO
     local Section = JogadorTab:AddSection({
-        Name = "VISUALll"
+        Name = "VISUALxx"
     })
 
     JogadorTab:AddToggle({
