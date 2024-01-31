@@ -62,7 +62,7 @@ JogadorTab:AddToggle({
 	Name = "ESP",
 	Default = false,
 	Callback = function(Value)
-		_G.ESP =true
+		_G.ESP = true
         ESP()
 	end    
 })
