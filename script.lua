@@ -1,10 +1,10 @@
---load SORCE
+-- Load SORCE
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 
---MENU
+-- MENU
 local Window = OrionLib:MakeWindow({Name = "JRC MENU", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
 
---VALOR
+-- VALOR
 _G.ESP = false
 
 -- Função para criar uma linha entre dois pontos
@@ -36,9 +36,10 @@ function ESP()
                 local character = player.Character
                 if character and character:FindFirstChild("Head") then
                     local headPosition = workspace.CurrentCamera:WorldToScreenPoint(character.Head.Position)
-                    local topPosition = Vector2.new(headPosition.X, headPosition.Y - 30)  -- 30 pixels acima da cabeça
-
-                    createLine(headPosition, topPosition)
+                    local myHeadPosition = workspace.CurrentCamera:WorldToScreenPoint(game.Players.LocalPlayer.Character.Head.Position)
+                    
+                    -- Criar a linha apenas para o jogador local
+                    createLine(myHeadPosition, headPosition)
                 end
             end
         end
