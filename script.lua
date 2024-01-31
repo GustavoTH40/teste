@@ -54,6 +54,7 @@ if game.PlaceId == 15991080927 then
         Default = false,
         Callback = function(Value)
             _G.ESP = Value
+                 ESP()
         end
     })
 
