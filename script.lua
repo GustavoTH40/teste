@@ -7,6 +7,27 @@ local Window = OrionLib:MakeWindow({Name = "JRC MENU", HidePremium = false, Save
 --VALOR
 _G.ESP = false
 
+-- Função para criar uma linha entre dois pontos
+local function createLine(pointA, pointB)
+    local line = Instance.new("LineHandleAdornment")
+    line.Parent = game.Players.LocalPlayer.PlayerGui
+    line.Adornee = workspace.CurrentCamera
+    line.ZIndex = 0
+    line.Color3 = Color3.new(1, 0, 0)  -- Cor da linha (vermelha)
+    line.Thickness = 2  -- Largura da linha
+    line.Transparency = 0.5
+
+    line.Position = UDim2.new(0, 0, 0, 0)
+    line.Size = UDim2.new(1, 0, 1, 0)
+    line.AlwaysOnTop = true
+    line.Visible = true
+
+    line.PointA = pointA
+    line.PointB = pointB
+
+    return line
+end
+
 -- Função ESP
 function ESP()
     while _G.ESP do
@@ -48,6 +69,3 @@ JogadorTab:AddToggle({
         end
     end
 })
-
--- Adicione a parte do ESP fornecida anteriormente aqui
-
