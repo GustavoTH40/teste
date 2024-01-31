@@ -1,4 +1,4 @@
-if game placeId == 15991080927 then
+if game.PlaceId == 15991080927 then
 --load
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 
