@@ -43,11 +43,11 @@ if game.PlaceId == 15991080927 then
 
     -- SECAO
     local Section = JogadorTab:AddSection({
-        Name = "VISUAL"
+        Name = "VISUALll"
     })
 
     JogadorTab:AddToggle({
-        Name = "ESPp",
+        Name = "ESP",
         Default = false,
         Callback = function(Value)
             _G.ESP = Value
