@@ -10,11 +10,15 @@ local Window = OrionLib:MakeWindow({Name = "JRC MENU", HidePremium = false, Save
 --VALOR
 _G.ESP = true
 
----funcao
+--funcao
 function ESP()
     while _G.ESP == true do
         --pegar todos os jogadores
         local players = game:GetService("Players")
+        --pegar o serviço de entrada do usuário
+        local userInputService = game:GetService("UserInputService")
+        --pegar a câmera do jogo
+        local camera = workspace.CurrentCamera
         --loopar por cada jogador
         for i, player in pairs(players:GetChildren()) do
             --verificar se o jogador é diferente do localplayer
@@ -27,25 +31,12 @@ function ESP()
                     local head = character:FindFirstChild("Head")
                     --verificar se a cabeça existe
                     if head then
-                        --criar um billboard gui na cabeça
-                        local esp = head:FindFirstChild("ESP") or Instance.new("BillboardGui", head)
-                        --definir as propriedades do esp
-                        esp.Name = "ESP"
-                        esp.AlwaysOnTop = true
-                        esp.Size = UDim2.new(0, 200, 0, 50)
-                        esp.StudsOffset = Vector3.new(0, 1, 0)
-                        esp.Adornee = head
-                        --criar um texto no esp
-                        local text = esp:FindFirstChild("Text") or Instance.new("TextLabel", esp)
-                        --definir as propriedades do texto
-                        text.Name = "Text"
-                        text.BackgroundTransparency = 1
-                        text.Size = UDim2.new(1, 0, 1, 0)
-                        text.TextColor3 = Color3.new(1, 0, 0) --vermelho
-                        text.TextStrokeTransparency = 0
-                        text.Font = Enum.Font.SourceSansBold
-                        text.TextSize = 20
-                        text.Text = player.Name --mostrar o nome do jogador
+                        --converter a posição da cabeça para a posição na tela
+                        local headPos = camera:WorldToViewportPoint(head.Position)
+                        --converter a posição do localplayer para a posição na tela
+                        local localPos = camera:WorldToViewportPoint(players.LocalPlayer.Character.Head.Position)
+                        --desenhar uma linha entre as duas posições
+                        userInputService:DrawLine(headPos, localPos, Color3.new(1, 0, 0), 2) --vermelho
                     end
                 end
             end
@@ -54,6 +45,7 @@ function ESP()
         wait(0.1)
     end
 end
+
 
 --jogador
 local JogadorTab = Window:MakeTab({
