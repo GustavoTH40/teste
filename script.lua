@@ -12,7 +12,8 @@ _G.ESP = true
 
 --funcao
 function ESP()
-    while _G.ESP == true do
+    --verificar se o esp está ligado
+    if _G.ESP == true then
         --pegar todos os jogadores
         local players = game:GetService("Players")
         --pegar o serviço de entrada do usuário
@@ -41,30 +42,43 @@ function ESP()
                 end
             end
         end
-        --esperar um pouco antes de repetir o loop
-        wait(0.1)
     end
 end
 
+--pegar o serviço de execução
+local runService = game:GetService("RunService")
 
---jogador
+--definir o estado inicial do esp
+_G.ESP = false
+
+--conectar a função ESP ao evento RenderStepped
+local connection = runService.RenderStepped:Connect(ESP)
+
+--pegar o botão toggle
 local JogadorTab = Window:MakeTab({
 	Name = "Jogador",
 	Icon = "rbxassetid://4483345998",
 	PremiumOnly = false
 })
 
---SECAO
 local Section = JogadorTab:AddSection({
 	Name = "VISUAL"
 })
+
 JogadorTab:AddToggle({
 	Name = "ESP",
 	Default = false,
 	Callback = function(Value)
+        --mudar o valor do esp
 		_G.ESP = Value
-        ESP()
+        --verificar se o esp está ligado ou desligado
+        if Value == true then
+            --reconectar a função ESP ao evento RenderStepped
+            connection = runService.RenderStepped:Connect(ESP)
+        else
+            --desconectar a função ESP do evento RenderStepped
+            connection:UnbindFromRenderStep()
+        end
 	end    
 })
 
-end
