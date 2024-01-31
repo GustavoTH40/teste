@@ -10,43 +10,51 @@ local Window = OrionLib:MakeWindow({Name = "JRC MENU", HidePremium = false, Save
 --VALOR
 _G.ESP = true
 
---funcao
---funcao
+---funcao
 function ESP()
     while _G.ESP == true do
         --pegar todos os jogadores
-        local Players = game:GetService("Players")
-        --loop for para cada jogador
-        for i, v in pairs(Players:GetPlayers()) do
-            --verificar se o jogador é diferente de você e se está vivo
-            if v ~= Players.LocalPlayer and v.Character and v.Character:FindFirstChild("Humanoid") and v.Character.Humanoid.Health > 0 then
-                --verificar se o jogador está na mesma equipe que você
-                local SameTeam = v.TeamColor == Players.LocalPlayer.TeamColor
-                --criar um BillboardGui para o jogador
-                local Billboard = Instance.new("BillboardGui", v.Character)
-                --definir as propriedades do BillboardGui
-                Billboard.Name = "ESP"
-                Billboard.AlwaysOnTop = true
-                Billboard.Size = UDim2.new(0, 100, 0, 150)
-                Billboard.StudsOffset = Vector3.new(0, 2, 0)
-                Billboard.Adornee = v.Character
-                --criar um TextLabel para o BillboardGui
-                local TextLabel = Instance.new("TextLabel", Billboard)
-                --definir as propriedades do TextLabel
-                TextLabel.BackgroundTransparency = 1
-                TextLabel.Size = UDim2.new(1, 0, 1, 0)
-                TextLabel.TextColor3 = SameTeam and Color3.new(0, 1, 0) or Color3.new(1, 0, 0) --verde para aliados, vermelho para inimigos
-                TextLabel.TextStrokeTransparency = 0.5
-                TextLabel.Font = Enum.Font.SourceSansBold
-                TextLabel.TextSize = 20
-                TextLabel.Text = v.Name .. "\n" .. math.floor((v.Character.HumanoidRootPart.Position - Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude) .. "m\n" .. v.Character.Humanoid.Health .. "/" .. v.Character.Humanoid.MaxHealth --mostrar o nome, a distância e a saúde do jogador
+        local players = game:GetService("Players")
+        --loopar por cada jogador
+        for i, player in pairs(players:GetChildren()) do
+            --verificar se o jogador é diferente do localplayer
+            if player ~= players.LocalPlayer then
+                --pegar a personagem do jogador
+                local character = player.Character
+                --verificar se a personagem existe e está viva
+                if character and character:FindFirstChild("Humanoid") and character.Humanoid.Health > 0 then
+                    --pegar a cabeça da personagem
+                    local head = character:FindFirstChild("Head")
+                    --verificar se a cabeça existe
+                    if head then
+                        --criar um billboard gui na cabeça
+                        local esp = head:FindFirstChild("ESP") or Instance.new("BillboardGui", head)
+                        --definir as propriedades do esp
+                        esp.Name = "ESP"
+                        esp.AlwaysOnTop = true
+                        esp.Size = UDim2.new(0, 200, 0, 50)
+                        esp.StudsOffset = Vector3.new(0, 1, 0)
+                        esp.Adornee = head
+                        --criar um texto no esp
+                        local text = esp:FindFirstChild("Text") or Instance.new("TextLabel", esp)
+                        --definir as propriedades do texto
+                        text.Name = "Text"
+                        text.BackgroundTransparency = 1
+                        text.Size = UDim2.new(1, 0, 1, 0)
+                        text.TextColor3 = Color3.new(1, 0, 0) --vermelho
+                        text.TextStrokeTransparency = 0
+                        text.Font = Enum.Font.SourceSansBold
+                        text.TextSize = 20
+                        text.Text = player.Name --mostrar o nome do jogador
+                    end
+                end
             end
         end
-        --esperar 0.1 segundos antes de repetir o loop
+        --esperar um pouco antes de repetir o loop
         wait(0.1)
     end
-    end
-    
+end
+
 --jogador
 local JogadorTab = Window:MakeTab({
 	Name = "Jogador",
