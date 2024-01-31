@@ -125,4 +125,3 @@ JogadorTab:AddToggle({
         ESP()
 	end    
 })
-OrionLib:Init()
