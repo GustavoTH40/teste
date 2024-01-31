@@ -1,64 +1,60 @@
--- Load SORCE
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+if game.PlaceId == 15991080927 then
 
--- MENU
-local Window = OrionLib:MakeWindow({Name = "JRC MENU", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
+    --load SORCE
+    local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 
--- VALOR
-local ESPEnabled = false
+    --MENU
+    local Window = OrionLib:MakeWindow({Name = "JRC MENU", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
 
--- Função para criar uma linha entre dois pontos
-local function createLine(pointA, pointB)
-    local line = Drawing.new("Line")
-    line.From = pointA
-    line.To = pointB
-    line.Color = Color3.new(1, 0, 0)
-    line.Thickness = 2
-    line.Transparency = 0.5
-    line.Visible = true
+    --VALOR
+    _G.ESP = false
 
-    return line
-end
+    --funcao
+    function ESP()
+        while true do
+            wait(1)
 
--- Função ESP
-function ESP()
-    while ESPEnabled do
-        for _, player in pairs(game.Players:GetPlayers()) do
-            if player ~= game.Players.LocalPlayer then
-                local character = player.Character
-                if character and character:FindFirstChild("Head") then
-                    local headPosition = workspace.CurrentCamera:WorldToViewportPoint(character.Head.Position)
-                    local myHeadPosition = workspace.CurrentCamera:WorldToViewportPoint(game.Players.LocalPlayer.Character.Head.Position)
-                    
-                    -- Criar a linha apenas para o jogador local
-                    createLine(Vector2.new(myHeadPosition.x, myHeadPosition.y), Vector2.new(headPosition.x, headPosition.y))
+            if _G.ESP then
+                -- Obter todos os jogadores no jogo
+                local players = game:GetService("Players"):GetPlayers()
+
+                -- Iterar sobre cada jogador
+                for _, player in pairs(players) do
+                    -- Verificar se o jogador é diferente do jogador local
+                    if player ~= game.Players.LocalPlayer then
+                        -- Criar uma linha ESP para o jogador
+                        local espLine = Drawing.new("Line")
+                        espLine.Visible = true
+                        espLine.From = Vector2.new(game.Players.LocalPlayer:WaitForChild("PlayerGui").ViewportFrame.WorldFrame:WaitForChild(player.Name).Position.X, game.Players.LocalPlayer:WaitForChild("PlayerGui").ViewportFrame.WorldFrame:WaitForChild(player.Name).Position.Y)
+                        espLine.To = Vector2.new(game.Players.LocalPlayer:WaitForChild("PlayerGui").ViewportFrame.WorldFrame:WaitForChild(player.Name).Position.X, game.Players.LocalPlayer:WaitForChild("PlayerGui").ViewportFrame.WorldFrame:WaitForChild(player.Name).Position.Y + player.Character:WaitForChild("Humanoid").HipHeight * 3)
+                        espLine.Color = Color3.new(1, 1, 1) -- Cor do ESP (branco)
+                    end
                 end
             end
         end
-        wait(0.1)
     end
-end
 
--- Adicionando a função ESP ao menu
-local JogadorTab = Window:MakeTab({
-    Name = "Jogador",
-    Icon = "rbxassetid://4483345998",
-    PremiumOnly = false
-})
+    -- Jogador
+    local JogadorTab = Window:MakeTab({
+        Name = "Jogador",
+        Icon = "rbxassetid://4483345998",
+        PremiumOnly = false
+    })
 
--- Adicionando uma seção ao menu
-local Section = JogadorTab:AddSection({
-    Name = "VISUAL"
-})
+    -- SECAO
+    local Section = JogadorTab:AddSection({
+        Name = "VISUAL"
+    })
 
--- Adicionando um botão de alternância para o ESP
-JogadorTab:AddToggle({
-    Name = "ESP",
-    Default = false,
-    Callback = function(Value)
-        ESPEnabled = Value
-        if Value then
-            ESP()
+    JogadorTab:AddToggle({
+        Name = "ESP",
+        Default = false,
+        Callback = function(Value)
+            _G.ESP = Value
         end
-    end
-})
+    })
+
+    -- Iniciar ESP
+    ESP()
+
+end
