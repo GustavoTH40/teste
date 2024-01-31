@@ -8,11 +8,11 @@ local Window = OrionLib:MakeWindow({Name = "JRC MENU", HidePremium = false, Save
 
 
 --VALOR
-_G.ESP =true
+_G.ESP = true
 
 --funcao
 function ESP()
-while ESP == true then
+while _G.ESP == true do
     local gui = Instance.new ("SurfaceGui", parte)
     gui.Name = "ESP"
     gui.AlwaysOnTop = true
